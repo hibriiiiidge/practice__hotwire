@@ -1,0 +1,34 @@
+version: '3'
+services:
+  db:
+    image: mysql:8.0.20
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      TZ: Asia/Tokyo
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    ports:
+      - 3307:3306
+
+  web:
+    build: .
+    tty: true
+    stdin_open: true
+    volumes:
+      - ./backend:/app:cached
+      - bundle_data:/usr/local/bundle:cached
+      - /app/vendor
+      - /app/tmp
+      - /app/log
+      - /app/.git
+    environment:
+      TZ: Asia/Tokyo
+    ports:
+      - 3003:3000
+    depends_on:
+      - db
+
+volumes:
+  mysql_data:
+  bundle_data:
