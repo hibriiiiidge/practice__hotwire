@@ -29,6 +29,15 @@ services:
     depends_on:
       - db
 
+  redis:
+    image: redis:latest
+    ports:
+      - 6379:6379
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+
 volumes:
   mysql_data:
   bundle_data:
+  redis_data:
