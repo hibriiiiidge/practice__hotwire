@@ -8,7 +8,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     services:
-      mysql:
+      db:
         image: mysql:8.0.20
         env:
           MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
@@ -27,6 +27,4 @@ jobs:
       - name: Install dependencies
         run: bundle install
       - name: Set up DB
-        run: |
-          cp config/database.yml.ci config/database.yml
-          bundle exec rails db:create db:migrate
+        run: bundle exec rails db:create db:migrate
